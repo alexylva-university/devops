@@ -80,26 +80,9 @@ let workflows = [
             )
             step(
                 name = "Test",
-                run = "dotnet test",
+                run = "dotnet run --project DevOps -- check --dry-run",
                 timeoutMin = 10
             )
-        ]
-
-        dotNetJob "check-docs" [
-            runsOn "ubuntu-26.04"
-            step(
-                name = "Restore dotnet tools",
-                run = "dotnet tool restore"
-            )
-            step(
-                name = "Validate docfx",
-                run = "dotnet docfx docs/docfx.json --warningsAsErrors"
-            )
-        ]
-
-        dotNetJob "check-all-warnings" [ // separate check not bothering the local compilation
-            runsOn "ubuntu-26.04"
-            step(name = "Verify with full warning check", run = "dotnet build -p:AllWarningsMode=true")
         ]
 
         job "licenses" [
@@ -140,92 +123,6 @@ let workflows = [
                     "github-token", "${{ secrets.GITHUB_TOKEN }}"
                     "strict", "true"
                 ]
-            )
-        ]
-    ]
-
-    workflow "release" [
-        name "Release"
-        yield! mainTriggers
-        onPushTags "v*"
-        dotNetJob "nuget" [
-            jobPermission(PermissionKind.Contents, AccessKind.Write)
-            runsOn "ubuntu-26.04"
-            step(
-                id = "version",
-                name = "Get version",
-                shell = "pwsh",
-                run = "echo \"version=$(scripts/Get-Version.ps1 -RefName $env:GITHUB_REF)\" >> $env:GITHUB_OUTPUT"
-            )
-            step(
-                run = "dotnet pack --configuration Release -p:Version=${{ steps.version.outputs.version }}"
-            )
-            step(
-                name = "Read changelog",
-                usesSpec = Auto "ForNeVeR/ChangelogAutomation.action",
-                options = Map.ofList [
-                    "output", "./release-notes.md"
-                ]
-            )
-            step(
-                name = "Upload artifacts",
-                usesSpec = Auto "actions/upload-artifact",
-                options = Map.ofList [
-                    "path", "./release-notes.md\n./DevOps/bin/Release/DevOps.${{ steps.version.outputs.version }}.nupkg\n./DevOps/bin/Release/DevOps.${{ steps.version.outputs.version }}.snupkg"
-                ]
-            )
-            step(
-                condition = "startsWith(github.ref, 'refs/tags/v')",
-                name = "Create a release",
-                usesSpec = Auto "softprops/action-gh-release",
-                options = Map.ofList [
-                    "body_path", "./release-notes.md"
-                    "files", "./DevOps/bin/Release/DevOps.${{ steps.version.outputs.version }}.nupkg\n./DevOps/bin/Release/DevOps.${{ steps.version.outputs.version }}.snupkg"
-                    "name", "DevOps v${{ steps.version.outputs.version }}"
-                ]
-            )
-            step(
-                condition = "startsWith(github.ref, 'refs/tags/v')",
-                name = "Push artifact to NuGet",
-                run = "dotnet nuget push ./DevOps/bin/Release/DevOps.${{ steps.version.outputs.version }}.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_TOKEN }}"
-            )
-        ]
-    ]
-
-    workflow "docs" [
-        name "Docs"
-        onPushTo "main"
-        onWorkflowDispatch
-        workflowPermission(PermissionKind.Actions, AccessKind.Read)
-        workflowPermission(PermissionKind.Pages, AccessKind.Write)
-        workflowPermission(PermissionKind.IdToken, AccessKind.Write)
-        workflowConcurrency(
-            group = "pages",
-            cancelInProgress = false
-        )
-        dotNetJob "publish-docs" [
-            environment(name = "github-pages", url = "${{ steps.deployment.outputs.page_url }}")
-            runsOn "ubuntu-26.04"
-
-            step(
-                name = "Set up .NET tools",
-                run = "dotnet tool restore"
-            )
-            step(
-                name = "Build the documentation",
-                run = "dotnet docfx docs/docfx.json"
-            )
-            step(
-                name = "Upload artifact",
-                usesSpec = Auto "actions/upload-pages-artifact",
-                options = Map.ofList [
-                    "path", "docs/_site"
-                ]
-            )
-            step(
-                name = "Deploy to GitHub Pages",
-                id = "deployment",
-                usesSpec = Auto "actions/deploy-pages"
             )
         ]
     ]

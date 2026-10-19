@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2024-2025 Friedrich von Never <friedrich@fornever.me>
+SPDX-FileCopyrightText: 2024-2026 Friedrich von Never <friedrich@fornever.me>
 
 SPDX-License-Identifier: MIT
 -->
@@ -9,7 +9,7 @@ Contributor Guide
 
 Prerequisites
 -------------
-To work with the project, you'll need [.NET SDK 9][dotnet-sdk] or later.
+To work with the project, you'll need [.NET SDK 10][dotnet-sdk] or later.
 
 Build
 -----
@@ -24,18 +24,8 @@ Test
 Use the following shell command:
 
 ```console
-$ dotnet test
+$ dotnet run --project DevOps -- check --dry-run
 ```
-
-Test Documentation
-------------------
-To open the project documentation site locally, use the following shell commands:
-```console
-$ dotnet tool restore
-$ dotnet docfx docs/docfx.json --serve
-```
-
-Then, open http://localhost:8080/ and browse the documentation.
 
 License Automation
 ------------------
@@ -52,7 +42,7 @@ If the CI asks you to update the file licenses, follow one of these:
    $ reuse annotate --license MIT --copyright '%your name% <%your contact info, e.g. email%>' %file names to annotate%
    ```
 
-(Feel free to attribute the changes to "DevOps contributors <https://github.com/alexylva-university/DevOps>" instead of your name in a multi-author file, or if you don't want your name to be mentioned in the project's source: this doesn't mean you'll lose the copyright.)
+(Feel free to attribute the changes to "Alexylva University DevOps contributors <https://github.com/alexylva-university/devops>" instead of your name in a multi-author file, or if you don't want your name to be mentioned in the project's source: this doesn't mean you'll lose the copyright.)
 
 File Encoding Changes
 ---------------------
