@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+open System
 open System.Collections.Generic
 open System.Text.Json
 open Fabricator.Core
@@ -10,7 +11,13 @@ open Fabricator.Secrets.KeePass
 open TruePath
 open TruePath.SystemIo
 
-let private configFile = AbsolutePath(__SOURCE_DIRECTORY__) / ".." / "settings.json"
+let private configFileName =
+    LocalPath(
+        if Environment.GetEnvironmentVariable "CI" <> null
+        then "settings.example.json"
+        else "settings.json"
+    )
+let private configFile = AbsolutePath(__SOURCE_DIRECTORY__) / ".." / configFileName
 let private config =
     if not <| configFile.ExistsFile() then failwith $"Missing file \"{configFile.Value}\"."
     configFile.OpenRead()
