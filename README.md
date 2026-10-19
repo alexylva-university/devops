@@ -8,6 +8,11 @@ DevOps [![Status Zero][status-zero]][andivionian-status-classifier]
 ========
 Infrastructure as code for Alexylva University.
 
+Configuration
+-------------
+1. Copy `settings.example.json` to `settings.json`.
+2. Set up the values in the `settings.json`.
+
 Usage
 -----
 How to check if there's anything to apply:

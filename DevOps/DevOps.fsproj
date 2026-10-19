@@ -16,6 +16,8 @@ SPDX-License-Identifier: MIT
 
     <ItemGroup>
       <PackageReference Include="FVNever.Fabricator.Console" />
+      <PackageReference Include="FVNever.Fabricator.Resources" />
+      <PackageReference Include="FVNever.Fabricator.Secrets.KeePass" />
     </ItemGroup>
 
 </Project>

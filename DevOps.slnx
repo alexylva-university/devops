@@ -25,6 +25,9 @@
     <File Path="REUSE.toml" />
     <File Path="global.json" />
     <File Path="global.json.license" />
+    <File Path="settings.example.json" />
+    <File Path="settings.example.json.license" />
+    <File Path="settings.json" />
   </Folder>
   <Project Path="DevOps/DevOps.fsproj" />
 </Solution>

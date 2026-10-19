@@ -10,6 +10,8 @@ SPDX-License-Identifier: MIT
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="FVNever.Fabricator.Console" Version="0.6.0" />
+    <PackageVersion Include="FVNever.Fabricator.Resources" Version="0.6.0" />
+    <PackageVersion Include="FVNever.Fabricator.Secrets.KeePass" Version="0.6.0" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.402" />
     <PackageVersion Include="ChangelogAutomation.MSBuild" Version="3.0.5" />
   </ItemGroup>
