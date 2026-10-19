@@ -13,8 +13,4 @@ SPDX-License-Identifier: MIT
         <TargetFramework>net10.0</TargetFramework>
     </PropertyGroup>
 
-    <PropertyGroup Condition="$(CI) != ''">
-        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-    </PropertyGroup>
-
 </Project>
