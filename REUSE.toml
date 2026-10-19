@@ -1,7 +1,7 @@
 version = 1
-SPDX-PackageName = "FVNeverDotNetTemplate"
+SPDX-PackageName = "DevOps"
 SPDX-PackageSupplier = "Friedrich von Never <friedrich@fornever.me>"
-SPDX-PackageDownloadLocation = "https://github.com/ForNeVeR/dotnet-repo-template"
+SPDX-PackageDownloadLocation = "https://github.com/alexylva-university/devops"
 
 [[annotations]]
 path = [

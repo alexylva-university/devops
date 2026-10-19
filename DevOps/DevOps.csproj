@@ -7,7 +7,7 @@ SPDX-License-Identifier: MIT
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-      <PackageDescription>FVNeverDotNetTemplateDescription</PackageDescription>
+      <PackageDescription>Infrastructure as code for Alexylva University.</PackageDescription>
       <IsPackable>true</IsPackable>
   </PropertyGroup>
 
